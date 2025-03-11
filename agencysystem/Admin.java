@@ -5,10 +5,19 @@ import identification.Car;
 import identification.Customer;
 
 public class Admin {
-    private static Employee[] employees = defaultEmployees();
-    private static Customer[] customers = new Customer[3];
-    private static Car[] cars = defaultCars();
-    
+    private Employee[] employees = defaultEmployees();
+    private Customer[] customers = new Customer[3];
+    private Car[] cars = defaultCars();
+
+    static Admin admin = null; 
+    private Admin() {  } 
+    static public Admin getInstance() 
+    { 
+        if (admin == null)         
+             admin = new Admin(); 
+   
+        return admin; 
+    }  
 
     private static Employee[] defaultEmployees() {
         Employee[] employees = new Employee[3];

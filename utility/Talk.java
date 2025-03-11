@@ -12,13 +12,13 @@ import java.util.Scanner;
 public class Talk {
     private Customer customer;
     private Car car;
-    private static Admin manager = new Admin();
-    private static Car[] cars = manager.getCars();
-    private static Transaction transaction = new Transaction();
+    private Admin manager = Admin.getInstance();
+    private Car[] cars = manager.getCars();
+    private Transaction transaction = new Transaction();
     Scanner input = new Scanner(System.in);
     private Employee employee;
-    private int choice;
     private String paymentType;
+    private int choice;
 
     private  Employee getRandomEmployee() {
         Employee[] employees = manager.getEmployees();

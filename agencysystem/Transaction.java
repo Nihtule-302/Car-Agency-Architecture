@@ -13,7 +13,7 @@ public class Transaction {
     private Car car;
     private String paymentType;
     private double price;
-    private static Admin manager = new Admin();
+    private Admin manager = Admin.getInstance();
 
     public void setEmployeeAndCustomer(Employee employee, Customer customer) {
         this.employee = employee;

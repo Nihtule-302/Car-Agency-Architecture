@@ -10,7 +10,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Management {
-    private static Admin manager = new Admin();
+    private  Admin manager = Admin.getInstance();
 
     Scanner input = new Scanner(System.in);
 

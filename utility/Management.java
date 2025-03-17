@@ -1,12 +1,13 @@
 package utility;
 
+import EntityTypes.CarType;
 import agencysystem.Transaction;
-import factory.EmployeeType;
+import EntityTypes.EmployeeType;
 import agencysystem.Admin;
-import identification.Car;
-import identification.Customer;
-import identification.Employee;
-import factory.CustomerType;
+import identification.Cars.Car;
+import identification.Customers.Customer;
+import identification.Employees.Employee;
+import EntityTypes.CustomerType;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -211,7 +212,7 @@ public class Management {
                         System.out.print("rent: ");
                         rent = input.nextDouble();
 
-                        admin.addCar(model, price, rent);
+                        admin.addCar(model, price, rent, CarType.ECONOMY);
                         System.out.print(model + " Added");
                         flag = false;
                         break;

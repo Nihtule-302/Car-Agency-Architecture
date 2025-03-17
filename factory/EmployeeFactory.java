@@ -1,12 +1,13 @@
 package factory;
 
-import identification.Employee;
-import identification.Manager;
-import identification.Hr;
-import identification.Normal;
+import EntityTypes.EmployeeType;
+import identification.Employees.Employee;
+import identification.Employees.Manager;
+import identification.Employees.Hr;
+import identification.Employees.Normal;
 
 public class EmployeeFactory {
-    public static Employee createEmployee(String name,EmployeeType employeeType) {
+    public static Employee createEmployee(String name, EmployeeType employeeType) {
         switch (employeeType) {
             case MANAGER:
                 return new Manager(name);

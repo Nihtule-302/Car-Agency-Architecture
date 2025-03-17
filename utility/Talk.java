@@ -2,9 +2,9 @@ package utility;
 
 import agencysystem.Admin;
 import agencysystem.Transaction;
-import identification.Car;
-import identification.Customer;
-import identification.Employee;
+import identification.Cars.Car;
+import identification.Customers.Customer;
+import identification.Employees.Employee;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;

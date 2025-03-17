@@ -1,16 +1,20 @@
 package factory;
 
-import identification.*;
+import EntityTypes.CustomerType;
+import identification.Customers.Customer;
+import identification.Customers.Premium;
+import identification.Customers.Regular;
+import identification.Customers.Vip;
 
 
 public class CustomerFactory {
-    public static Customer createCustomer(String name,CustomerType customerType) {
+    public static Customer createCustomer(String name, CustomerType customerType) {
         switch (customerType) {
             case REGULAR:
                 return new Regular(name);
 
             case PREMIUIM:
-                return new Premiuim(name);
+                return new Premium(name);
 
             case VIP:
                 return new Vip(name);

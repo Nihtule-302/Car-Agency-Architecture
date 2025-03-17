@@ -1,4 +1,6 @@
-package identification;
+package identification.Customers;
+
+import identification.Identification;
 
 public class Customer extends Identification {
     private static int idCounter = 500;

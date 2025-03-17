@@ -1,4 +1,4 @@
-package identification;
+package identification.Cars;
 
 public class Economy extends Car {
     public Economy(String model, double price, double rent) {

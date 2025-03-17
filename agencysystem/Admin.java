@@ -1,7 +1,12 @@
 package agencysystem;
 
 import factory.*;
-import identification.*;
+import EntityTypes.CarType;
+import EntityTypes.CustomerType;
+import EntityTypes.EmployeeType;
+import identification.Cars.Car;
+import identification.Customers.Customer;
+import identification.Employees.Employee;
 
 public class Admin {
     private Employee[] employees = defaultEmployees();
@@ -18,17 +23,17 @@ public class Admin {
         return admin;
     }
 
-    private static Employee[] defaultEmployees() {
+    private Employee[] defaultEmployees() {
         Employee[] employees = new Employee[3];
-        employees[0] = EmployeeFactory.createEmployee("Thorfinn",EmployeeType.MANAGER);
+        employees[0] = EmployeeFactory.createEmployee("Thorfinn", EmployeeType.MANAGER);
         employees[1] = EmployeeFactory.createEmployee("Musashi",EmployeeType.NORMAL);
         employees[2] = EmployeeFactory.createEmployee("Fushi",EmployeeType.HR);
         return employees;
     }
 
-    private static Car[] defaultCars() {
+    private Car[] defaultCars() {
         Car[] cars = new Car[2];
-        cars[0] = CarFactory.createCar("BMW", 1232000, 1755,CarType.ECONOMY);
+        cars[0] = CarFactory.createCar("BMW", 1232000, 1755, CarType.ECONOMY);
         cars[1] = CarFactory.createCar("MERCEDES", 1848000, 2156,CarType.ECONOMY);
         return cars;
     }
@@ -67,7 +72,7 @@ public class Admin {
         employees[index] = newEmployee;
     }
 
-    public void addCustomer(String name,CustomerType cmpt) {
+    public void addCustomer(String name, CustomerType cmpt) {
         Customer newCustomer = CustomerFactory.createCustomer(name,cmpt);
         int index = findAvailableIndex(customers);
         customers[index] = newCustomer;
@@ -78,8 +83,14 @@ public class Admin {
         customers[index] = customer;
     }
 
-    public void addCar(String model, double price, double rent) {
-        Car newCar = CarFactory.createCar(model, price, rent,CarType.ECONOMY);
+    public void addCar(String model, double price, double rent, CarType carType) {
+        Car newCar = new CarFactory.Builder()
+                        .setModel(model)
+                        .setPrice(price)
+                        .setRent(rent)
+                        .setCarType(carType)
+                        .build();
+
         int index = findAvailableIndex(cars);
         cars[index] = newCar;
     }

@@ -1,8 +1,8 @@
 package agencysystem;
 
-import identification.Car;
-import identification.Customer;
-import identification.Employee;
+import identification.Cars.Car;
+import identification.Customers.Customer;
+import identification.Employees.Employee;
 
 public class Transaction {
     private static double Income = 0;

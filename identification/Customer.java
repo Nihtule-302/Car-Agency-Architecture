@@ -15,6 +15,4 @@ public class Customer extends Identification {
             setId(idCounter);
         }   
     }
-
-
 }

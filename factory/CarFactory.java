@@ -1,22 +1,18 @@
 package factory;
 
-import identification.Car;
-import identification.Economy;
-import identification.Regular;
-import identification.Premiuim;
-import identification.Vip;
+import identification.*;
 
 public class CarFactory {
-    public static Car createCustomer(String name,CarType carType) {
+    public static Car createCar(String model,double price,double rent,CarType carType) {
         switch (carType) {
             case ECONOMY:
-                return new Economy(name);
+                return new Economy(model, price, rent);
 
             case LUXURY:
-                return new Luxury(name);
+                return new Luxury(model, price, rent);
 
             case SPORTS:
-                return new Sports(name);
+                return new Sports(model, price, rent);
 
              default:
                 throw new IllegalArgumentException("Invalid employee type: " + carType);

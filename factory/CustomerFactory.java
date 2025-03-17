@@ -1,9 +1,7 @@
 package factory;
 
-import identification.Customer;
-import identification.Regular;
-import identification.Premiuim;
-import identification.Vip;
+import identification.*;
+
 
 public class CustomerFactory {
     public static Customer createCustomer(String name,CustomerType customerType) {

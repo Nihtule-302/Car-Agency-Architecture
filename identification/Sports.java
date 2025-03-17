@@ -1,7 +1,7 @@
 package identification;
 
 public class Sports extends Car {
-    public Sports(String name) {
-        super(name);
+    public Sports(String model, double price, double rent) {
+        super(model, price, rent);
     } 
 }

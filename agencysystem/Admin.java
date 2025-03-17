@@ -1,13 +1,7 @@
 package agencysystem;
 
-import factory.CarFactory;
-import factory.CustomerFactory;
-import factory.CustomerType;
-import factory.EmployeeFactory;
-import factory.EmployeeType;
-import identification.Employee;
-import identification.Car;
-import identification.Customer;
+import factory.*;
+import identification.*;
 
 public class Admin {
     private Employee[] employees = defaultEmployees();
@@ -34,8 +28,8 @@ public class Admin {
 
     private static Car[] defaultCars() {
         Car[] cars = new Car[2];
-        cars[0] = CarFactory.createCar("BMW", 1232000, 1755);
-        cars[1] = CarFactory.createCar("MERCEDES", 1848000, 2156);
+        cars[0] = CarFactory.createCar("BMW", 1232000, 1755,CarType.ECONOMY);
+        cars[1] = CarFactory.createCar("MERCEDES", 1848000, 2156,CarType.ECONOMY);
         return cars;
     }
 
@@ -85,7 +79,7 @@ public class Admin {
     }
 
     public void addCar(String model, double price, double rent) {
-        Car newCar = CarFactory.createCar(model, price, rent);
+        Car newCar = CarFactory.createCar(model, price, rent,CarType.ECONOMY);
         int index = findAvailableIndex(cars);
         cars[index] = newCar;
     }

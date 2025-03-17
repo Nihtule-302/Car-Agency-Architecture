@@ -1,16 +1,18 @@
 package utility;
 
 import agencysystem.Transaction;
+import factory.EmployeeType;
 import agencysystem.Admin;
 import identification.Car;
 import identification.Customer;
 import identification.Employee;
+import factory.CustomerType;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Management {
-    private  Admin manager = Admin.getInstance();
+    private  Admin admin = Admin.getInstance();
 
     Scanner input = new Scanner(System.in);
 
@@ -65,7 +67,7 @@ public class Management {
         String employeeName;
         Employee employee;
         while (true) {
-            Employee[] employees = manager.getEmployees();
+            Employee[] employees = admin.getEmployees();
             System.out.println("\n++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
             System.out.println("              (Employee)            ");
             System.out.println("|(1)Hire | (2)Fire | (3)Search | (4)Show All Employees | (5)return to previous page |");
@@ -77,14 +79,14 @@ public class Management {
                     case 1:
                         System.out.print("Who do you wish to HIRE (enter a name): ");
                         employeeName = input.next();
-                        manager.addEmployee(employeeName);
+                        admin.addEmployee(employeeName,EmployeeType.NORMAL);
                         System.out.print(employeeName + " is hired");
                         flag = false;
                         break;
                     case 2:
                         System.out.print("Who do you wish to FIRE!!! (enter a name): ");
                         employeeName = input.next();
-                        manager.removeEmployee(employeeName);
+                        admin.removeEmployee(employeeName);
                         System.out.print(employeeName + " is fired");
                         flag = false;
                         break;
@@ -92,7 +94,7 @@ public class Management {
                         try {
                             System.out.print("Who do you wish to Find (enter a name): ");
                             employeeName = input.next();
-                            employee = manager.getEmployee(employeeName);
+                            employee = admin.getEmployee(employeeName);
                             System.out.println("Name: " + employee.getName());
                             System.out.println("ID: " + employee.getId());
                             System.out.println("paycheck: " + employee.getPayCheck());
@@ -135,7 +137,7 @@ public class Management {
         String customerName;
         Customer customer;
         while (true) {
-            Customer[] customers = manager.getCustomers();
+            Customer[] customers = admin.getCustomers();
             System.out.println("\n++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
             System.out.println("              (Customer)            ");
             System.out.println("|(1)Add | (2)Search | (3)Show All Customers | (4)return to previous page");
@@ -147,7 +149,7 @@ public class Management {
                     case 1:
                         System.out.print("Enter the Customer's name: ");
                         customerName = input.next();
-                        manager.addCustomer(customerName);
+                        admin.addCustomer(customerName,CustomerType.REGULAR);
                         System.out.print(customerName + " Added");
                         flag = false;
                         break;
@@ -155,7 +157,7 @@ public class Management {
                         try{
                             System.out.print("Enter the Customer's name: ");
                             customerName = input.next();
-                            customer = manager.getCustomer(customerName);
+                            customer = admin.getCustomer(customerName);
                             System.out.println("Name: " + customer.getName());
                             System.out.println("ID: " + customer.getId());
                             flag = false;
@@ -192,7 +194,7 @@ public class Management {
         double price, rent;
         Car car;
         while (true) {
-            Car[] cars = manager.getCars();
+            Car[] cars = admin.getCars();
             System.out.println("\n++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
             System.out.println("              (Car)            ");
             System.out.println("|(1)Add | (2)Remove | (3)Search | (4)Show All Cars | (5)return to previous page |");
@@ -209,14 +211,14 @@ public class Management {
                         System.out.print("rent: ");
                         rent = input.nextDouble();
 
-                        manager.addCar(model, price, rent);
+                        admin.addCar(model, price, rent);
                         System.out.print(model + " Added");
                         flag = false;
                         break;
                     case 2:
                         System.out.print("Which car do you want to remove: ");
                         model = input.next();
-                        manager.removeCar(model);
+                        admin.removeCar(model);
                         System.out.print(model + " Removed");
                         flag = false;
                         break;
@@ -224,7 +226,7 @@ public class Management {
                         try {
                             System.out.print("Enter the Car's model: ");
                             model = input.next();
-                            car = manager.getCar(model);
+                            car = admin.getCar(model);
                             System.out.println("Name: " + car.getName());
                             System.out.println("ID: " + car.getId());
                             System.out.println("price: " + car.getPrice());

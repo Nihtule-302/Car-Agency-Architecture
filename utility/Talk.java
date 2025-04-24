@@ -14,20 +14,30 @@ public class Talk {
     private Car car;
     private Admin manager = Admin.getInstance();
     private Car[] cars = manager.getCars();
+    private Employee[] employees = manager.getEmployees();
     private Transaction transaction = new Transaction();
     Scanner input = new Scanner(System.in);
     private Employee employee;
     private String paymentType;
     private int choice;
 
-    private  Employee getRandomEmployee() {
-        Employee[] employees = manager.getEmployees();
+    private Employee getRandomEmployee() {
+        if (employees == null || employees.length == 0) {
+            System.out.println("employees == null" + (employees == null));
+            System.out.println("employees.length == 0" + (employees.length == 0));
+            return null;
+        }
         int randomIndex = (int) (Math.random() * employees.length);
         return employees[randomIndex];
     }
 
     public void greetings(){
         employee = getRandomEmployee();
+        if (employee == null) {
+            System.out.println("⚠️ No employees available at the moment. Please contact an administrator.");
+            return;
+        }
+
         System.out.println("Hello, my name is " + employee.getName());
         System.out.println("Please enter your name: ");
         String name = input.next();
@@ -48,10 +58,9 @@ public class Talk {
                 } else {
                     flag1 = false;
                 }
-
             } catch (InputMismatchException ime) {
                 System.out.println("Please enter a valid number");
-                input.nextInt();
+                input.nextLine(); // ✅ Fix
             }
         }
         switch(choice){
@@ -78,7 +87,7 @@ public class Talk {
             }
             catch(Exception e) {
                 System.out.println("Please enter a valid ID");
-                input.next();
+                input.nextLine();
             }   
         }
 
@@ -90,7 +99,6 @@ public class Talk {
                 transaction.buy(car);
                 break;
             default:
-            transaction.buy(car);
         }
 
         transaction.saveTransaction();

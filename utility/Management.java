@@ -4,6 +4,7 @@ import EntityTypes.CarType;
 import agencysystem.Transaction;
 import EntityTypes.EmployeeType;
 import agencysystem.Admin;
+import factory.CarBuilder;
 import identification.Cars.Car;
 import identification.Customers.Customer;
 import identification.Employees.Employee;
@@ -212,7 +213,14 @@ public class Management {
                         System.out.print("rent: ");
                         rent = input.nextDouble();
 
-                        admin.addCar(model, price, rent, CarType.ECONOMY);
+                        car = new CarBuilder()
+                                .setModel(model)
+                                .setPrice(price)
+                                .setRent(rent)
+                                .setCarType(CarType.ECONOMY)
+                                .build();
+                        admin.addCar(car);
+
                         System.out.print(model + " Added");
                         flag = false;
                         break;

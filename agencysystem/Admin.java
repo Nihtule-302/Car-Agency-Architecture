@@ -33,8 +33,21 @@ public class Admin {
 
     private Car[] defaultCars() {
         Car[] cars = new Car[2];
-        cars[0] = CarFactory.createCar("BMW", 1232000, 1755, CarType.ECONOMY);
-        cars[1] = CarFactory.createCar("MERCEDES", 1848000, 2156,CarType.ECONOMY);
+
+        cars[0] = new CarBuilder()
+                .setModel("BMW")
+                .setPrice(1232000)
+                .setRent(1755)
+                .setCarType(CarType.ECONOMY)
+                .build();
+
+        cars[1] = new CarBuilder()
+                .setModel("MERCEDES")
+                .setPrice(1848000)
+                .setRent(2156)
+                .setCarType(CarType.ECONOMY)
+                .build();
+
         return cars;
     }
 
@@ -83,16 +96,9 @@ public class Admin {
         customers[index] = customer;
     }
 
-    public void addCar(String model, double price, double rent, CarType carType) {
-        Car newCar = new CarFactory.Builder()
-                        .setModel(model)
-                        .setPrice(price)
-                        .setRent(rent)
-                        .setCarType(carType)
-                        .build();
-
+    public void addCar(Car car) {
         int index = findAvailableIndex(cars);
-        cars[index] = newCar;
+        cars[index] = car;
     }
 
     public void removeEmployee(String name) {

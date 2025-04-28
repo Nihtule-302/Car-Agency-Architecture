@@ -2,8 +2,7 @@ package StateMachine;
 
 import utility.Talk;
 
-public class CustomerPerspectiveState implements State
-{
+public class CustomerPerspectiveState implements State {
     CarAgencyStateMachine machine;
 
     @Override
@@ -22,7 +21,7 @@ public class CustomerPerspectiveState implements State
 
     }
 
-    private static void handleCustomer() {
+    private void handleCustomer() {
         System.out.println("\n++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
         Talk talk = new Talk();
         talk.greetings();

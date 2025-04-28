@@ -1,11 +1,9 @@
 package StateMachine;
 
-public class CarAgencyStateMachine
-{
+public class CarAgencyStateMachine {
     private State state;
 
-    public void Start()
-    {
+    public void Start() {
         setState(new MainMenuState());
         state.enter(this);
 

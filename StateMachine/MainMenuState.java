@@ -3,8 +3,7 @@ package StateMachine;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class MainMenuState implements State
-{
+public class MainMenuState implements State {
     CarAgencyStateMachine machine;
     Scanner input;
 
@@ -19,19 +18,16 @@ public class MainMenuState implements State
     }
 
     @Override
-    public void Do()
-    {
+    public void Do() {
         mainMenuLogic();
     }
 
     @Override
-    public void exit() {
-    }
+    public void exit() {}
 
 
 
-    private void mainMenuLogic()
-    {
+    private void mainMenuLogic() {
         while (true) {
             displayMenu();
             int choice = getValidInput(input);
@@ -60,7 +56,8 @@ public class MainMenuState implements State
                 if (choice >= 0 && choice <= 2) {
                     return choice;
                 }
-                System.out.print("Invalid choice. Please enter (0 -> Admin), (1 -> Customer), (2 -> Exit): ");
+                System.out.print(
+                        "Invalid choice. Please enter (0 -> Admin), (1 -> Customer), (2 -> Exit): ");
             } catch (InputMismatchException e) {
                 System.out.print("Invalid input. Please enter a number (0, 1, or 2): ");
                 input.next(); // Clear invalid input
@@ -69,18 +66,15 @@ public class MainMenuState implements State
     }
 
 
-    private void handleAdmin(CarAgencyStateMachine machine)
-    {
+    private void handleAdmin(CarAgencyStateMachine machine) {
         machine.SwitchState(new AdminPerspectiveState());
     }
 
-    private void handleCustomer(CarAgencyStateMachine machine)
-    {
+    private void handleCustomer(CarAgencyStateMachine machine) {
         machine.SwitchState(new CustomerPerspectiveState());
     }
 
-    private void exitProgram(CarAgencyStateMachine machine)
-    {
+    private void exitProgram(CarAgencyStateMachine machine) {
         machine.SwitchState(new ExitState());
     }
 }

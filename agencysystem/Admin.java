@@ -11,8 +11,8 @@ import identification.Employees.Employee;
 
 public class Admin {
     private List<Employee> employees = new ArrayList<>();
-    private static List<Customer> customers = new ArrayList<>();
-    private static List<Car> cars = new ArrayList<>();
+    private List<Customer> customers = new ArrayList<>();
+    private List<Car> cars = new ArrayList<>();
     private static Admin instance;
 
     private Admin() {
@@ -79,7 +79,7 @@ public class Admin {
     public List<Car> getCars() {
         return cars;
     }
-
+ 
     public Employee getEmployee(String name) {
         return employees.stream().filter(employee -> employee.getName().equals(name)).findFirst()
                 .orElse(null);

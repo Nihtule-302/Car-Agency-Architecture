@@ -9,8 +9,7 @@ import java.util.Stack;
 public class Transaction {
     public static double Income = 0;
     public static ArrayList<Transaction> transactions = new ArrayList<>();
-    public static Stack<Transaction> undoStack = new Stack<>(); // Stack to hold transactions for
-    // undo
+    public static Stack<Transaction> undoStack = new Stack<>();
 
     private Employee employee;
     private Customer customer;

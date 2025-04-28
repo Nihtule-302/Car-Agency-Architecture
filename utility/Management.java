@@ -3,6 +3,7 @@ package utility;
 import EntityTypes.CarType;
 import agencysystem.Transaction;
 import EntityTypes.EmployeeType;
+import FactoryandBuilder.CarBuilder;
 import agencysystem.Admin;
 import identification.Cars.Car;
 import identification.Customers.Customer;
@@ -82,66 +83,23 @@ public class Management {
                 int choice = input.nextInt();
                 switch (choice) {
                     case 1:
-                        System.out.print("Who do you wish to HIRE (enter a name): ");
-                        employeeName = input.next();
-                        System.out.println("Choose Employee Type: (1) Normal | (2) Manager");
-                        int employeeTypeChoice = input.nextInt();
-                        EmployeeType employeeType = EmployeeType.NORMAL; // Default value
-                        switch (employeeTypeChoice) {
-                            case 1:
-                                employeeType = EmployeeType.NORMAL;
-                                break;
-                            case 2:
-                                employeeType = EmployeeType.MANAGER;
-                                break;
-                            default:
-                                System.out.println("Invalid choice, setting default to Normal.");
-                        }
-                        admin.addEmployee(employeeName, employeeType);
-                        System.out.print(employeeName + " is hired");
+                        hireEmployee();
                         flag = false;
                         break;
                     case 2:
-                        System.out.print("Who do you wish to FIRE!!! (enter a name): ");
-                        employeeName = input.next();
-                        admin.removeEmployee(employeeName);
-                        System.out.print(employeeName + " is fired");
+                        fireEmployee();
                         flag = false;
                         break;
                     case 3:
-                        try {
-                            System.out.print("Who do you wish to Find (enter a name): ");
-                            employeeName = input.next();
-                            employee = admin.getEmployee(employeeName);
-                            System.out.println("Name: " + employee.getName());
-                            System.out.println("ID: " + employee.getId());
-                            System.out.println("Paycheck: " + employee.getPayCheck());
-                            flag = false;
-                            break;
-                        } catch (Exception e) {
-                            System.out.println("Employee not found");
-                            flag = false;
-                            break;
-                        }
+                        searchEmployee();
+                        flag = false;
+                        break;
                     case 4:
-                        System.out.print("Name    | ");
-                        for (Employee emp : employees) {
-                            System.out.print(emp.getName() + " | ");
-                        }
-                        System.out.print("\nID      | ");
-                        for (Employee emp : employees) {
-                            System.out.print(emp.getId() + "   |   ");
-                        }
-                        System.out.print("\nPaycheck| ");
-                        for (Employee emp : employees) {
-                            System.out.print(emp.getPayCheck() + " | ");
-                        }
+                        showAllEmployees(employees);
                         flag = false;
                         break;
                     case 5:
-                        System.out.println(
-                                "\n++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
-                        System.out.println("               (Root)                ");
+                        returnToPrevious();
                         return;
                     default:
                         System.out.print("Please choose one of the options listed, try again: ");
@@ -150,6 +108,56 @@ public class Management {
         }
     }
 
+    private void hireEmployee() {
+        System.out.print("Who do you wish to HIRE (enter a name): ");
+        String employeeName = input.next();
+        System.out.println("Choose Employee Type: (1) Normal | (2) Manager");
+        int employeeTypeChoice = input.nextInt();
+        EmployeeType employeeType =
+                employeeTypeChoice == 1 ? EmployeeType.NORMAL : EmployeeType.MANAGER;
+        admin.addEmployee(employeeName, employeeType);
+        System.out.println(employeeName + " is hired");
+    }
+
+    private void fireEmployee() {
+        System.out.print("Who do you wish to FIRE!!! (enter a name): ");
+        String employeeName = input.next();
+        admin.removeEmployee(employeeName);
+        System.out.println(employeeName + " is fired");
+    }
+
+    private void searchEmployee() {
+        System.out.print("Who do you wish to Find (enter a name): ");
+        String employeeName = input.next();
+        try {
+            Employee employee = admin.getEmployee(employeeName);
+            System.out.println("Name: " + employee.getName());
+            System.out.println("ID: " + employee.getId());
+            System.out.println("Paycheck: " + employee.getPayCheck());
+        } catch (Exception e) {
+            System.out.println("Employee not found");
+        }
+    }
+
+    private void showAllEmployees(List<Employee> employees) {
+        System.out.print("Name    | ");
+        for (Employee emp : employees) {
+            System.out.print(emp.getName() + " | ");
+        }
+        System.out.print("\nID      | ");
+        for (Employee emp : employees) {
+            System.out.print(emp.getId() + "   |   ");
+        }
+        System.out.print("\nPaycheck| ");
+        for (Employee emp : employees) {
+            System.out.print(emp.getPayCheck() + " | ");
+        }
+    }
+
+    private void returnToPrevious() {
+        System.out.println("\n++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+        System.out.println("               (Root)                ");
+    }
 
     private void customerManagement() throws InputMismatchException {
         String customerName;
@@ -166,51 +174,19 @@ public class Management {
                 int choice = input.nextInt();
                 switch (choice) {
                     case 1:
-                        System.out.print("Enter the Customer's name: ");
-                        customerName = input.next();
-                        System.out.println("Choose Customer Type: (1) Regular | (2) VIP");
-                        int customerTypeChoice = input.nextInt();
-                        CustomerType customerType = CustomerType.REGULAR; // Default value
-                        switch (customerTypeChoice) {
-                            case 1:
-                                customerType = CustomerType.REGULAR;
-                                break;
-                            case 2:
-                                customerType = CustomerType.VIP;
-                                break;
-                            default:
-                                System.out.println("Invalid choice, setting default to Regular.");
-                        }
-                        admin.addCustomer(customerName, customerType);
-                        System.out.print(customerName + " Added");
+                        addCustomer();
                         flag = false;
                         break;
                     case 2:
-                        try {
-                            System.out.print("Enter the Customer's name: ");
-                            customerName = input.next();
-                            customer = admin.getCustomer(customerName);
-                            System.out.println("Name: " + customer.getName());
-                            System.out.println("ID: " + customer.getId());
-                            flag = false;
-                            break;
-                        } catch (Exception e) {
-                            System.out.println("Customer not found");
-                            input.next();
-                            flag = false;
-                            break;
-                        }
+                        searchCustomer();
+                        flag = false;
+                        break;
                     case 3:
-                        System.out.println("Name | ID");
-                        for (Customer cust : customers) {
-                            System.out.println(cust.getName() + "  |  " + cust.getId());
-                        }
+                        showAllCustomers(customers);
                         flag = false;
                         break;
                     case 4:
-                        System.out.println(
-                                "\n++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
-                        System.out.println("               (Root)                ");
+                        returnToPrevious();
                         return;
                     default:
                         System.out.print("Please choose one of the options listed, try again: ");
@@ -219,6 +195,35 @@ public class Management {
         }
     }
 
+    private void addCustomer() {
+        System.out.print("Enter the Customer's name: ");
+        String customerName = input.next();
+        System.out.println("Choose Customer Type: (1) Regular | (2) VIP");
+        int customerTypeChoice = input.nextInt();
+        CustomerType customerType =
+                customerTypeChoice == 1 ? CustomerType.REGULAR : CustomerType.VIP;
+        admin.addCustomer(customerName, customerType);
+        System.out.println(customerName + " Added");
+    }
+
+    private void searchCustomer() {
+        System.out.print("Enter the Customer's name: ");
+        String customerName = input.next();
+        try {
+            Customer customer = admin.getCustomer(customerName);
+            System.out.println("Name: " + customer.getName());
+            System.out.println("ID: " + customer.getId());
+        } catch (Exception e) {
+            System.out.println("Customer not found");
+        }
+    }
+
+    private void showAllCustomers(List<Customer> customers) {
+        System.out.println("Name | ID");
+        for (Customer cust : customers) {
+            System.out.println(cust.getName() + "  |  " + cust.getId());
+        }
+    }
 
     private void carManagement() throws InputMismatchException {
         String model;
@@ -236,74 +241,23 @@ public class Management {
                 int choice = input.nextInt();
                 switch (choice) {
                     case 1:
-                        System.out.print("Enter the model of the car: ");
-                        model = input.next();
-                        System.out.print("Price: ");
-                        price = input.nextDouble();
-                        System.out.print("Rent: ");
-                        rent = input.nextDouble();
-
-                        // Ask the user for the car type
-                        System.out
-                                .println("Choose Car Type: (1) Economy | (2) Luxury | (3) Sports");
-                        int carTypeChoice = input.nextInt();
-                        CarType carType = CarType.ECONOMY; // Default value
-                        switch (carTypeChoice) {
-                            case 1:
-                                carType = CarType.ECONOMY;
-                                break;
-                            case 2:
-                                carType = CarType.LUXURY;
-                                break;
-                            case 3:
-                                carType = CarType.SPORTS;
-                                break;
-                            default:
-                                System.out.println("Invalid choice, setting default to Economy.");
-                        }
-
-                        // Create car using the factory
-                        admin.addCar(model, price, rent, carType); // Adds the car to the system
-
-                        System.out.print(model + " Added");
+                        addCar();
                         flag = false;
                         break;
                     case 2:
-                        System.out.print("Which car do you want to remove: ");
-                        model = input.next();
-                        admin.removeCar(model);
-                        System.out.print(model + " Removed");
+                        removeCar();
                         flag = false;
                         break;
                     case 3:
-                        try {
-                            System.out.print("Enter the Car's model: ");
-                            model = input.next();
-                            car = admin.getCar(model);
-                            System.out.println("Name: " + car.getName());
-                            System.out.println("ID: " + car.getId());
-                            System.out.println("Price: " + car.getPrice());
-                            System.out.println("Rent: " + car.getRent());
-                            flag = false;
-                            break;
-                        } catch (Exception e) {
-                            System.out.println("Car not found");
-                            input.next();
-                            flag = false;
-                            break;
-                        }
+                        searchCar();
+                        flag = false;
+                        break;
                     case 4:
-                        System.out.println("Name | ID | Price | Rent");
-                        for (Car c : cars) {
-                            System.out.println(c.getName() + " | " + c.getId() + " | "
-                                    + c.getPrice() + " | " + c.getRent());
-                        }
+                        showAllCars(cars);
                         flag = false;
                         break;
                     case 5:
-                        System.out.println(
-                                "\n++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
-                        System.out.println("               (Root)                ");
+                        returnToPrevious();
                         return;
                     default:
                         System.out.print("Please choose one of the options listed, try again: ");
@@ -312,46 +266,99 @@ public class Management {
         }
     }
 
+    private void addCar() {
+        System.out.print("Enter the model of the car: ");
+        String model = input.next();
+        System.out.print("Price: ");
+        double price = input.nextDouble();
+        System.out.print("Rent: ");
+        double rent = input.nextDouble();
 
+        System.out.println("Choose Car Type: (1) Economy | (2) Luxury | (3) Sports");
+        int carTypeChoice = input.nextInt();
+        CarType carType = switch (carTypeChoice) {
+            case 1 -> CarType.ECONOMY;
+            case 2 -> CarType.LUXURY;
+            case 3 -> CarType.SPORTS;
+            default -> CarType.ECONOMY;
+        };
+        Car car = new CarBuilder().setModel(model).setPrice(price).setRent(rent).setCarType(carType)
+                .build();
+        admin.addCar(car);
+        System.out.println(model + " Added");
+    }
+
+    private void removeCar() {
+        System.out.print("Which car do you want to remove: ");
+        String model = input.next();
+        admin.removeCar(model);
+        System.out.println(model + " Removed");
+    }
+
+    private void searchCar() {
+        System.out.print("Enter the Car's model: ");
+        String model = input.next();
+        try {
+            Car car = admin.getCar(model);
+            System.out.println("Name: " + car.getName());
+            System.out.println("ID: " + car.getId());
+            System.out.println("Price: " + car.getPrice());
+            System.out.println("Rent: " + car.getRent());
+        } catch (Exception e) {
+            System.out.println("Car not found");
+        }
+    }
+
+    private void showAllCars(List<Car> cars) {
+        System.out.println("Name | ID | Price | Rent");
+        for (Car c : cars) {
+            System.out.println(
+                    c.getName() + " | " + c.getId() + " | " + c.getPrice() + " | " + c.getRent());
+        }
+    }
 
     private void transactionManagement() throws InputMismatchException {
         while (true) {
-            Transaction transaction = new Transaction();
             System.out.println("\n++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
             System.out.println("            (transactionManagement)            ");
             System.out
                     .println("|(1)Balance | (2)Show All Transactions | (3)return to previous page");
-            System.out.print("Choose from the list above the part of the system to access: ");
-            boolean flag = true;
-            while (flag) {
-                int choice = input.nextInt();
-                switch (choice) {
-                    case 1:
-                        System.out.println("Income: " + transaction.getIncome());
-                        flag = false;
-                        break;
-                    case 2:
-                        List<Transaction> allTransactions = transaction.getTransactions();
-                        System.out.println("Employee | Customer | Operation | Car | Price |");
-                        for (Transaction t : allTransactions) {
-                            if (t != null) {
-                                System.out.println(t.getEmployeeName() + " | " + t.getCustomerName()
-                                        + " | " + t.getPaymentType() + " | " + t.getCarModel()
-                                        + " | " + t.getPrice() + " | ");
-                            }
-                        }
-                        flag = false;
-                        break;
-                    case 3:
-                        System.out.println(
-                                "\n++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
-                        System.out.println("               (Root)                ");
-                        return;
-                    default:
-                        System.out
-                                .print("please choose the one of the options listed, try again: ");
-                }
+            System.out
+                    .print("Choose the number corresponding to the part of the system to access: ");
+            int choice = input.nextInt();
+            switch (choice) {
+                case 1:
+                    showBalance();
+                    break;
+                case 2:
+                    showTransactions();
+                    break;
+                case 3:
+                    returnToPrevious();
+                    return;
+                default:
+                    System.out.print("please choose one of the options listed, try again: ");
             }
         }
     }
+
+    private void showBalance() {
+        // Show total income from all transactions
+        System.out.println("Total Income: " + Transaction.Income);
+    }
+
+    private void showTransactions() {
+        // Show all transactions in the transaction list
+        if (Transaction.transactions.isEmpty()) {
+            System.out.println("No transactions available.");
+        } else {
+            System.out.println("All Transactions:");
+            for (Transaction t : Transaction.transactions) {
+                System.out.println("Employee: " + t.getEmployeeName() + " | Customer: "
+                        + t.getCustomerName() + " | Car: " + t.getCarModel() + " | Payment Type: "
+                        + t.getPaymentType() + " | Price: " + t.getPrice());
+            }
+        }
+    }
+
 }

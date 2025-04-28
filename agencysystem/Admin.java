@@ -12,9 +12,8 @@ import identification.Employees.Employee;
 
 public class Admin {
     private List<Employee> employees = new ArrayList<>();
-    private List<Customer> customers = new ArrayList<>();
-    private List<Car> cars = new ArrayList<>();
-
+    private static List<Customer> customers = new ArrayList<>();
+    private static List<Car> cars = new ArrayList<>();
     private static Admin instance;
 
     private Admin() {
@@ -62,10 +61,7 @@ public class Admin {
         customers.add(newCustomer);
     }
 
-    public void addCar(String model, double price, double rent, CarType carType) {
-        Car car = new CarBuilder().setModel(model).setPrice(price).setRent(rent).setCarType(carType)
-                .build();
-        car.setId(cars.size() + 1); // Assign the ID based on the current size (index)
+    public void addCar(Car car) {
         cars.add(car);
     }
 

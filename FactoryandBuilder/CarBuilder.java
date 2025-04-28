@@ -24,10 +24,15 @@ public class CarBuilder {
         return this;
     }
 
+    public CarType getCarType() {
+        return carType;
+    }
+
     public CarBuilder setCarType(CarType carType) {
         this.carType = carType;
         return this;
     }
+
 
     public Car build() {
         return CarFactory.createCar(carType, model, price, rent);

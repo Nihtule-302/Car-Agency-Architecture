@@ -4,10 +4,13 @@ import identification.Cars.Car;
 import identification.Customers.Customer;
 import identification.Employees.Employee;
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class Transaction {
-    private static double Income = 0;
-    private static ArrayList<Transaction> transactions = new ArrayList<>();
+    public static double Income = 0;
+    public static ArrayList<Transaction> transactions = new ArrayList<>();
+    public static Stack<Transaction> undoStack = new Stack<>(); // Stack to hold transactions for
+    // undo
 
     private Employee employee;
     private Customer customer;
@@ -28,6 +31,10 @@ public class Transaction {
         manager.removeCar(car.getName());
         Income += car.getPrice();
         price = car.getPrice();
+
+        // Save transaction for undo
+        transactions.add(this);
+        undoStack.push(this); // Push the transaction onto the stack for undo functionality
     }
 
     public void rent(Car car) {
@@ -37,10 +44,37 @@ public class Transaction {
         manager.removeCar(car.getName());
         Income += car.getRent();
         price = car.getRent();
+
+        // Save transaction for undo
+        transactions.add(this);
+        undoStack.push(this); // Push the transaction onto the stack for undo functionality
     }
 
-    public void saveTransaction() {
-        transactions.add(this);
+    // Undo the most recent transaction
+    public static void undoTransaction() {
+        if (!undoStack.isEmpty()) {
+            Transaction lastTransaction = undoStack.peek();
+            undoStack.pop(); // Pop the last transaction
+            Car car = lastTransaction.car;
+            Employee employee = lastTransaction.employee;
+
+            // Revert the actions made by the transaction
+            Admin manager = Admin.getInstance();
+            manager.addCar(car);
+
+            // Optionally, revert the income update as well
+            if ("cash".equals(lastTransaction.paymentType)) {
+                Income -= car.getPrice();
+                employee.decreasePayCheck(car.getPrice());
+            } else if ("rent".equals(lastTransaction.paymentType)) {
+                Income -= car.getRent();
+                employee.decreasePayCheck(car.getRent());
+            }
+
+            System.out.println("Transaction undone.");
+        } else {
+            System.out.println("No transaction to undo.");
+        }
     }
 
     public double getIncome() {

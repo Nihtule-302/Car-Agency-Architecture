@@ -15,6 +15,10 @@ public class Employee extends Identification {
         this.payCheck += money;
     }
 
+    public void decreasePayCheck(double money) {
+        this.payCheck -= money;
+    }
+
     public double getPayCheck() {
         return payCheck;
     }

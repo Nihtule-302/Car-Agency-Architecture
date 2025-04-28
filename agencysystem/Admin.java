@@ -3,7 +3,6 @@ package agencysystem;
 import java.util.ArrayList;
 import java.util.List;
 import EntityTypes.CarType;
-import EntityTypes.CustomerType;
 import EntityTypes.EmployeeType;
 import FactoryandBuilder.*;
 import identification.Cars.Car;
@@ -17,29 +16,23 @@ public class Admin {
     private static Admin instance;
 
     private Admin() {
-        // Use builder to create and add default employees
         employees.add(new EmployeeBuilder().setName("Thorfinn")
                 .setEmployeeType(EmployeeType.MANAGER).build());
-        employees.get(0).setId(1); // Manually set ID for Thorfinn
+        employees.get(0).setId(1);
 
         employees.add(new EmployeeBuilder().setName("Musashi").setEmployeeType(EmployeeType.NORMAL)
                 .build());
-        employees.get(1).setId(2); // Manually set ID for Musashi
+        employees.get(1).setId(2);
 
         employees.add(
                 new EmployeeBuilder().setName("Fushi").setEmployeeType(EmployeeType.HR).build());
-        employees.get(2).setId(3); // Manually set ID for Fushi
+        employees.get(2).setId(3);
 
-
-        // Use builder to create and add default cars
         cars.add(new CarBuilder().setModel("BMW").setPrice(1232000).setRent(1755)
                 .setCarType(CarType.ECONOMY).build());
-        cars.get(0).setId(1); // Manually set ID for BMW
 
         cars.add(new CarBuilder().setModel("MERCEDES").setPrice(1848000).setRent(2156)
                 .setCarType(CarType.LUXURY).build());
-        cars.get(1).setId(2); // Manually set ID for MERCEDES
-
     }
 
     public static Admin getInstance() {
@@ -49,16 +42,14 @@ public class Admin {
         return instance;
     }
 
-    public void addEmployee(String name, EmployeeType empt) {
-        Employee newEmployee = new EmployeeBuilder().setName(name).setEmployeeType(empt).build();
-        newEmployee.setId(employees.size() + 1); // Assign the ID based on the current size (index)
-        employees.add(newEmployee);
+    public void addEmployee(Employee employee) {
+        employee.setId(employees.size() + 1); // Assign the ID based on the current size (index)
+        employees.add(employee);
     }
 
-    public void addCustomer(String name, CustomerType cmpt) {
-        Customer newCustomer = new CustomerBuilder().setName(name).setCustomerType(cmpt).build();
-        newCustomer.setId(customers.size() + 1); // Assign the ID based on the current size (index)
-        customers.add(newCustomer);
+    public void addCustomer(Customer customer) {
+        customer.setId(customers.size() + 1); // Assign the ID based on the current size (index)
+        customers.add(customer);
     }
 
     public void addCar(Car car) {

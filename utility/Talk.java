@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
 import EntityTypes.CustomerType;
+import FactoryandBuilder.CustomerBuilder;
 import StrategyCarSorting.CarSorter;
 import StrategyCarSorting.SortById;
 import StrategyCarSorting.SortByName;
@@ -64,7 +65,9 @@ public class Talk {
                 System.out.println("Invalid choice, setting default to Regular.");
         }
         // Pass customerType to the constructor
-        manager.addCustomer(name, customerType);
+        Customer customer =
+                new CustomerBuilder().setName(name).setCustomerType(customerType).build();
+        manager.addCustomer(customer);
         customer = manager.getCustomer(name);
         transaction.setEmployeeAndCustomer(employee, customer);
     }

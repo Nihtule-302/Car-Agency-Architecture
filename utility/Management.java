@@ -4,6 +4,8 @@ import EntityTypes.CarType;
 import agencysystem.Transaction;
 import EntityTypes.EmployeeType;
 import FactoryandBuilder.CarBuilder;
+import FactoryandBuilder.CustomerBuilder;
+import FactoryandBuilder.EmployeeBuilder;
 import agencysystem.Admin;
 import identification.Cars.Car;
 import identification.Customers.Customer;
@@ -115,7 +117,9 @@ public class Management {
         int employeeTypeChoice = input.nextInt();
         EmployeeType employeeType =
                 employeeTypeChoice == 1 ? EmployeeType.NORMAL : EmployeeType.MANAGER;
-        admin.addEmployee(employeeName, employeeType);
+        Employee employee =
+                new EmployeeBuilder().setName(employeeName).setEmployeeType(employeeType).build();
+        admin.addEmployee(employee);
         System.out.println(employeeName + " is hired");
     }
 
@@ -202,7 +206,9 @@ public class Management {
         int customerTypeChoice = input.nextInt();
         CustomerType customerType =
                 customerTypeChoice == 1 ? CustomerType.REGULAR : CustomerType.VIP;
-        admin.addCustomer(customerName, customerType);
+        Customer customer =
+                new CustomerBuilder().setName(customerName).setCustomerType(customerType).build();
+        admin.addCustomer(customer);
         System.out.println(customerName + " Added");
     }
 

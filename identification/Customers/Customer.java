@@ -5,8 +5,7 @@ import identification.Identification;
 public class Customer extends Identification {
 
     // No-arg constructor
-    public Customer() {
-    }
+    public Customer() {}
 
     // Constructor with name parameter
     public Customer(String name) {

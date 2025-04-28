@@ -1,13 +1,13 @@
-package factory;
+package FactoryandBuilder;
 
 import EntityTypes.EmployeeType;
 import identification.Employees.Employee;
-import identification.Employees.Manager;
 import identification.Employees.Hr;
+import identification.Employees.Manager;
 import identification.Employees.Normal;
 
 public class EmployeeFactory {
-    public static Employee createEmployee(String name, EmployeeType employeeType) {
+    public static Employee createEmployee(EmployeeType employeeType, String name) {
         switch (employeeType) {
             case MANAGER:
                 return new Manager(name);
@@ -18,7 +18,7 @@ public class EmployeeFactory {
             case HR:
                 return new Hr(name);
 
-             default:
+            default:
                 throw new IllegalArgumentException("Invalid employee type: " + employeeType);
         }
     }

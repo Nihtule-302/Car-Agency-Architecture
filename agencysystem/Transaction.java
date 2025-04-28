@@ -3,10 +3,11 @@ package agencysystem;
 import identification.Cars.Car;
 import identification.Customers.Customer;
 import identification.Employees.Employee;
+import java.util.ArrayList;
 
 public class Transaction {
     private static double Income = 0;
-    private static Transaction[] transactions = new Transaction[5];
+    private static ArrayList<Transaction> transactions = new ArrayList<>();
 
     private Employee employee;
     private Customer customer;
@@ -20,7 +21,7 @@ public class Transaction {
         this.customer = customer;
     }
 
-    public void buy(Car car){
+    public void buy(Car car) {
         this.paymentType = "cash";
         this.car = car;
         employee.increasePayCheck((car.getPrice() * 0.01));
@@ -29,7 +30,7 @@ public class Transaction {
         price = car.getPrice();
     }
 
-    public void rent(Car car){
+    public void rent(Car car) {
         this.paymentType = "rent";
         this.car = car;
         employee.increasePayCheck((car.getRent() * 0.01));
@@ -38,46 +39,19 @@ public class Transaction {
         price = car.getRent();
     }
 
-    public void saveTransaction(){
-        Transaction[] transactions = getTransactions();
-        int availableIndex = findAvailableIndex();
-        //System.out.println("Employee" + this.employee + "customer " + this.customer + "car " + this.car + "payment type" + paymentType + "Price " + price);
-        transactions[availableIndex] = this;
-    }
-
-    private int findAvailableIndex(){
-        Transaction[] transactions = getTransactions();
-        for (int i = 0; i < transactions.length; i++) {
-            if(transactions[i] == null)
-                return i;
-        }
-        //if the array is full, resize array
-        //and return the last index
-        resizeArray();
-        return findAvailableIndex();
-
-    }
-
-    private void resizeArray(){
-
-        Transaction[] temp = new Transaction[getTransactions().length + 1];
-        System.arraycopy(getTransactions(), 0, temp, 0, getTransactions().length);
-        setTransactions(temp);
+    public void saveTransaction() {
+        transactions.add(this);
     }
 
     public double getIncome() {
         return Income;
     }
 
-    public Transaction[] getTransactions() {
+    public ArrayList<Transaction> getTransactions() {
         return transactions;
     }
 
-    public void setTransactions(Transaction[] transactions) {
-        Transaction.transactions = transactions;
-    }
-
-    public String getPaymentType(){
+    public String getPaymentType() {
         return paymentType;
     }
 

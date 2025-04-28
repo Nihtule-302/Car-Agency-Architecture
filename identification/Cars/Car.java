@@ -3,7 +3,6 @@ package identification.Cars;
 import identification.Identification;
 
 public class Car extends Identification {
-    private static int idCounter = 1000;
     private double price;
     private double rent;
 
@@ -13,13 +12,9 @@ public class Car extends Identification {
 
     // Constructor with model, price, and rent parameters
     public Car(String model, double price, double rent) {
-        if(idCounter>=1000 && idCounter<=1499){
-            setName(model);
-            this.price = price;
-            this.rent = rent;
-            idCounter++;
-            setId(idCounter);    
-        }
+        setName(model);
+        this.price = price;
+        this.rent = rent;
     }
 
     // Getter for Price

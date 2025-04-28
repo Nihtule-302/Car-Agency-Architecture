@@ -1,196 +1,123 @@
 package agencysystem;
 
-import factory.*;
+import java.util.ArrayList;
+import java.util.List;
 import EntityTypes.CarType;
 import EntityTypes.CustomerType;
 import EntityTypes.EmployeeType;
+import FactoryandBuilder.*;
 import identification.Cars.Car;
 import identification.Customers.Customer;
 import identification.Employees.Employee;
 
 public class Admin {
-    private Employee[] employees = defaultEmployees();
-    private Customer[] customers = new Customer[3];
-    private Car[] cars = defaultCars();
+    private List<Employee> employees = new ArrayList<>();
+    private List<Customer> customers = new ArrayList<>();
+    private List<Car> cars = new ArrayList<>();
 
-    static Admin admin = null;
+    private static Admin instance;
 
-    private Admin() { }
+    private Admin() {
+        // Use builder to create and add default employees
+        employees.add(new EmployeeBuilder().setName("Thorfinn")
+                .setEmployeeType(EmployeeType.MANAGER).build());
+        employees.get(0).setId(1); // Manually set ID for Thorfinn
+
+        employees.add(new EmployeeBuilder().setName("Musashi").setEmployeeType(EmployeeType.NORMAL)
+                .build());
+        employees.get(1).setId(2); // Manually set ID for Musashi
+
+        employees.add(
+                new EmployeeBuilder().setName("Fushi").setEmployeeType(EmployeeType.HR).build());
+        employees.get(2).setId(3); // Manually set ID for Fushi
+
+
+        // Use builder to create and add default cars
+        cars.add(new CarBuilder().setModel("BMW").setPrice(1232000).setRent(1755)
+                .setCarType(CarType.ECONOMY).build());
+        cars.get(0).setId(1); // Manually set ID for BMW
+
+        cars.add(new CarBuilder().setModel("MERCEDES").setPrice(1848000).setRent(2156)
+                .setCarType(CarType.LUXURY).build());
+        cars.get(1).setId(2); // Manually set ID for MERCEDES
+
+    }
 
     public static Admin getInstance() {
-        if (admin == null)
-            admin = new Admin();
-        return admin;
-    }
-
-    private Employee[] defaultEmployees() {
-        Employee[] employees = new Employee[3];
-        employees[0] = EmployeeFactory.createEmployee("Thorfinn", EmployeeType.MANAGER);
-        employees[1] = EmployeeFactory.createEmployee("Musashi",EmployeeType.NORMAL);
-        employees[2] = EmployeeFactory.createEmployee("Fushi",EmployeeType.HR);
-        return employees;
-    }
-
-    private Car[] defaultCars() {
-        Car[] cars = new Car[2];
-
-        cars[0] = new CarBuilder()
-                .setModel("BMW")
-                .setPrice(1232000)
-                .setRent(1755)
-                .setCarType(CarType.ECONOMY)
-                .build();
-
-        cars[1] = new CarBuilder()
-                .setModel("MERCEDES")
-                .setPrice(1848000)
-                .setRent(2156)
-                .setCarType(CarType.ECONOMY)
-                .build();
-
-        return cars;
-    }
-
-    private void resizeArray(Object[] array) {
-        if (array instanceof Employee[]) {
-            Employee[] temp = new Employee[array.length + 1];
-            System.arraycopy(array, 0, temp, 0, array.length);
-            employees = temp;
-        } else if (array instanceof Customer[]) {
-            Customer[] temp = new Customer[array.length + 1];
-            System.arraycopy(array, 0, temp, 0, array.length);
-            customers = temp;
-        } else if (array instanceof Car[]) {
-            Car[] temp = new Car[array.length + 1];
-            System.arraycopy(array, 0, temp, 0, array.length);
-            cars = temp;
+        if (instance == null) {
+            instance = new Admin();
         }
+        return instance;
     }
 
-    private int findAvailableIndex(Object[] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] == null) {
-                return i;
-            }
-        }
-
-        resizeArray(arr);
-
-        return arr.length - 1;
-    }
-
-    public void addEmployee(String name,EmployeeType empt) {
-        Employee newEmployee = EmployeeFactory.createEmployee(name,empt);
-        int index = findAvailableIndex(employees);
-        employees[index] = newEmployee;
+    public void addEmployee(String name, EmployeeType empt) {
+        Employee newEmployee = new EmployeeBuilder().setName(name).setEmployeeType(empt).build();
+        newEmployee.setId(employees.size() + 1); // Assign the ID based on the current size (index)
+        employees.add(newEmployee);
     }
 
     public void addCustomer(String name, CustomerType cmpt) {
-        Customer newCustomer = CustomerFactory.createCustomer(name,cmpt);
-        int index = findAvailableIndex(customers);
-        customers[index] = newCustomer;
+        Customer newCustomer = new CustomerBuilder().setName(name).setCustomerType(cmpt).build();
+        newCustomer.setId(customers.size() + 1); // Assign the ID based on the current size (index)
+        customers.add(newCustomer);
     }
 
-    public void addCustomer(Customer customer) {
-        int index = findAvailableIndex(customers);
-        customers[index] = customer;
-    }
-
-    public void addCar(Car car) {
-        int index = findAvailableIndex(cars);
-        cars[index] = car;
+    public void addCar(String model, double price, double rent, CarType carType) {
+        Car car = new CarBuilder().setModel(model).setPrice(price).setRent(rent).setCarType(carType)
+                .build();
+        car.setId(cars.size() + 1); // Assign the ID based on the current size (index)
+        cars.add(car);
     }
 
     public void removeEmployee(String name) {
-        for (int i = 0; i < employees.length; i++) {
-            if (employees[i] != null && employees[i].getName().equals(name)) {
-                employees[i] = null;
-                break;
-            }
-        }
+        employees.removeIf(employee -> employee.getName().equals(name));
     }
 
     public void removeCustomer(String name) {
-        for (int i = 0; i < customers.length; i++) {
-            if (customers[i] != null && customers[i].getName().equals(name)) {
-                customers[i] = null;
-                break;
-            }
-        }
+        customers.removeIf(customer -> customer.getName().equals(name));
     }
 
     public void removeCar(String model) {
-        for (int i = 0; i < cars.length; i++) {
-            if (cars[i] != null && cars[i].getName().equals(model)) {
-                cars[i] = null;
-                break;
-            }
-        }
+        cars.removeIf(car -> car.getName().equals(model));
     }
 
     public Car getCar(String model) {
-        for (Car car : cars) {
-            if (car != null && car.getName().equals(model)) {
-                return car;
-            }
-        }
-        return null;
+        return cars.stream().filter(car -> car.getName().equals(model)).findFirst().orElse(null);
     }
 
     public Car getCar(int id) {
-        for (Car car : cars) {
-            if (car != null && car.getId() == id) {
-                return car;
-            }
-        }
-        return null;
+        return cars.stream().filter(car -> car.getId() == id).findFirst().orElse(null);
     }
 
-    public Car[] getCars() {
+    public List<Car> getCars() {
         return cars;
     }
 
     public Employee getEmployee(String name) {
-        for (Employee employee : employees) {
-            if (employee != null && employee.getName().equals(name)) {
-                return employee;
-            }
-        }
-        return null;
+        return employees.stream().filter(employee -> employee.getName().equals(name)).findFirst()
+                .orElse(null);
     }
 
     public Employee getEmployee(int id) {
-        for (Employee employee : employees) {
-            if (employee != null && employee.getId() == id) {
-                return employee;
-            }
-        }
-        return null;
+        return employees.stream().filter(employee -> employee.getId() == id).findFirst()
+                .orElse(null);
     }
 
-    public Employee[] getEmployees() {
+    public List<Employee> getEmployees() {
         return employees;
     }
 
     public Customer getCustomer(String name) {
-        for (Customer customer : customers) {
-            if (customer != null && customer.getName().equals(name)) {
-                return customer;
-            }
-        }
-        return null;
+        return customers.stream().filter(customer -> customer.getName().equals(name)).findFirst()
+                .orElse(null);
     }
 
     public Customer getCustomer(int id) {
-        for (Customer customer : customers) {
-            if (customer != null && customer.getId() == id) {
-                return customer;
-            }
-        }
-        return null;
+        return customers.stream().filter(customer -> customer.getId() == id).findFirst()
+                .orElse(null);
     }
 
-    public Customer[] getCustomers() {
+    public List<Customer> getCustomers() {
         return customers;
     }
 }

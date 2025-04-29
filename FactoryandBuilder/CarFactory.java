@@ -22,7 +22,7 @@ public class CarFactory {
             default:
                 car = new Car(model, price, rent);
         }
-        car.setCarType(carType); // 🔥 Important! Set the type inside the car
+        car.setCarType(carType);
         return car;
     }
 

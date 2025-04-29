@@ -65,10 +65,8 @@ public class Talk {
                 System.out.println("Invalid choice, setting default to Regular.");
         }
         // Pass customerType to the constructor
-        Customer customer =
-                new CustomerBuilder().setName(name).setCustomerType(customerType).build();
+        customer = new CustomerBuilder().setName(name).setCustomerType(customerType).build();
         manager.addCustomer(customer);
-        customer = manager.getCustomer(name);
         transaction.setEmployeeAndCustomer(employee, customer);
     }
 
@@ -86,7 +84,7 @@ public class Talk {
                 }
             } catch (InputMismatchException ime) {
                 System.out.println("Please enter a valid number");
-                input.nextLine(); // ✅ Fix
+                input.nextLine();
             }
         }
 

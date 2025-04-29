@@ -11,4 +11,5 @@ public class Customer extends Identification {
     public Customer(String name) {
         setName(name);
     }
+    
 }
